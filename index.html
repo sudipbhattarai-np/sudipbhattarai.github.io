@@ -1,15 +1,808 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Sudip Bhattarai</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sudip Bhattarai — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    body { font-family: Arial; text-align: center; margin-top: 100px; }
-    h1 { color: #2c3e50; }
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #12233f;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --white: #f5f5f0;
+      --grey: #8a9ab5;
+      --card-bg: #111e33;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(10, 22, 40, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--grey);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 700px;
+      animation: fadeUp 1s ease both;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--white);
+    }
+
+    .hero h1 span { color: var(--gold); }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      color: var(--grey);
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold);
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .hero-image {
+      position: absolute;
+      right: 6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 320px; height: 380px;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      animation: fadeIn 1.2s ease both;
+    }
+
+    .hero-image-placeholder {
+      width: 100%; height: 100%;
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--grey);
+    }
+
+    .hero-image-placeholder svg {
+      width: 80px; height: 80px;
+      opacity: 0.3;
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 6rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      display: block;
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 600;
+      margin-bottom: 3rem;
+      color: var(--white);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--grey);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 4px;
+      padding: 1.5rem;
+      transition: border-color 0.3s;
+    }
+
+    .stat-card:hover { border-color: rgba(201,168,76,0.4); }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--grey);
+      letter-spacing: 0.05em;
+    }
+
+    /* EDUCATION */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      opacity: 0.3;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding-left: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.4rem; top: 0.4rem;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--navy);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.2);
+    }
+
+    .timeline-year {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-sub {
+      color: var(--grey);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-desc {
+      color: var(--grey);
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* WORK EXPERIENCE */
+    .experience-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .exp-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 4px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(201,168,76,0.35);
+      transform: translateX(6px);
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .exp-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+
+    .exp-year {
+      font-size: 0.78rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      background: rgba(201,168,76,0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: 2px;
+    }
+
+    .exp-company {
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .exp-desc {
+      color: var(--grey);
+      font-size: 0.9rem;
+    }
+
+    /* BLOG */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .blog-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 4px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+
+    .blog-card:hover {
+      border-color: rgba(201,168,76,0.35);
+      transform: translateY(-4px);
+    }
+
+    .blog-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .blog-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .blog-excerpt {
+      color: var(--grey);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-link {
+      color: var(--gold);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.3s;
+    }
+
+    .blog-link:hover { gap: 1rem; }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info p {
+      color: var(--grey);
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--grey);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(201,168,76,0.08);
+    }
+
+    .contact-link:hover { color: var(--gold); }
+
+    .contact-icon {
+      width: 36px; height: 36px;
+      background: var(--card-bg);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: var(--card-bg);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 2px;
+      padding: 0.85rem 1rem;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: rgba(201,168,76,0.5);
+    }
+
+    .form-group textarea { min-height: 120px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--grey);
+      font-size: 0.8rem;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    /* DIVIDER */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,0.15), transparent);
+      margin: 0 4rem;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .hero-image { display: none; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+      .section-divider { margin: 0 1.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .about-stats { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <h1>Hello, I am Sudip 👋</h1>
-  <p>Welcome to my personal website</p>
-  <p>I am a student in New Zealand 🇳🇿</p>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">SB</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Portfolio</div>
+      <h1>Sudip<br/><span>Bhattarai</span></h1>
+      <p class="hero-tagline">MBIT Student | Banking & Finance Enthusiast | Based in New Zealand</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary">Get in Touch</a>
+        <a href="#about" class="btn-secondary">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="hero-image-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span style="font-size:0.75rem; letter-spacing:0.1em;">ADD YOUR PHOTO</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">Who I Am</div>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I am Sudip Bhattarai, an enthusiastic professional with a deep passion for the banking and finance sector. Currently pursuing my Master of Business Information Technology (MBIT) at ICL Graduate Business School in New Zealand, I am driven by the intersection of business strategy and emerging digital technologies.</p>
+        <p>With a strong academic foundation in business administration from Nepal and a commitment to continuous learning, I strive to bridge the gap between traditional banking practices and modern digital innovation.</p>
+        <p>My goal is to contribute meaningfully to the evolving financial services landscape, leveraging technology to create more accessible and secure banking experiences.</p>
+        <div style="margin-top:2rem;">
+          <a href="https://www.linkedin.com/in/sudip-bhattarai-895050378" target="_blank" class="btn-secondary" style="display:inline-block;">View LinkedIn Profile</a>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-number">MBIT</div>
+          <div class="stat-label">Current Degree Programme</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">NZ</div>
+          <div class="stat-label">Based in New Zealand</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">BBA</div>
+          <div class="stat-label">Bachelor's in Business Admin</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Banking</div>
+          <div class="stat-label">Core Area of Passion</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-label">Academic Background</div>
+    <h2 class="section-title">Education & Qualifications</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2025 — Present</div>
+        <div class="timeline-title">Master of Business Information Technology (MBIT)</div>
+        <div class="timeline-sub">ICL Graduate Business School — Auckland, New Zealand</div>
+        <div class="timeline-desc">Pursuing advanced studies in business information technology with a focus on digital transformation, data privacy, and technology-driven business solutions in the New Zealand context.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Completed</div>
+        <div class="timeline-title">Bachelor of Business Administration (BBA)</div>
+        <div class="timeline-sub">Nepal</div>
+        <div class="timeline-desc">Completed a comprehensive undergraduate programme in business administration, building a strong foundation in management, finance, and organisational behaviour.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Professional Journey</div>
+    <h2 class="section-title">Work Experience</h2>
+    <div class="experience-grid">
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-title">Banking Professional</div>
+          <div class="exp-year">Experience</div>
+        </div>
+        <div class="exp-company">Banking Sector — Nepal</div>
+        <div class="exp-desc">Gained valuable hands-on experience in the banking and finance sector, developing expertise in financial operations, customer relationship management, and banking procedures. This experience has shaped a strong understanding of the financial services industry and its evolving digital landscape.</div>
+      </div>
+    </div>
+    <p style="color: var(--grey); font-size: 0.85rem; margin-top: 1.5rem; font-style: italic;">More details coming soon.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- BLOG -->
+  <section id="blog">
+    <div class="section-label">Thoughts & Insights</div>
+    <h2 class="section-title">Blog & Articles</h2>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-tag">Banking & Finance</div>
+        <div class="blog-title">The Future of Digital Banking in New Zealand</div>
+        <div class="blog-excerpt">Exploring how open banking and fintech innovations are reshaping the financial landscape for consumers and businesses alike.</div>
+        <a href="#" class="blog-link">Coming Soon →</a>
+      </div>
+      <div class="blog-card">
+        <div class="blog-tag">Technology</div>
+        <div class="blog-title">Digital Payments: Trust, Privacy & Adoption</div>
+        <div class="blog-excerpt">Understanding the role of consumer trust and data privacy in the growing adoption of digital payment solutions.</div>
+        <a href="#" class="blog-link">Coming Soon →</a>
+      </div>
+      <div class="blog-card">
+        <div class="blog-tag">Life & Study</div>
+        <div class="blog-title">From Nepal to New Zealand: My Academic Journey</div>
+        <div class="blog-excerpt">Reflections on transitioning from working in the banking sector in Nepal to pursuing postgraduate studies in New Zealand.</div>
+        <a href="#" class="blog-link">Coming Soon →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Contact Me</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>I'm always open to connecting with like-minded professionals, academics, and anyone interested in banking, finance, or business technology. Feel free to reach out!</p>
+        <div class="contact-links">
+          <a href="mailto:sudipbhattarai.np@gmail.com" class="contact-link">
+            <div class="contact-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </div>
+            sudipbhattarai.np@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/sudip-bhattarai-895050378" target="_blank" class="contact-link">
+            <div class="contact-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </div>
+            LinkedIn Profile
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            Auckland, New Zealand
+          </a>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="John Doe"/>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="john@example.com"/>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Your message here..."></textarea>
+        </div>
+        <a href="mailto:sudipbhattarai.np@gmail.com" class="btn-primary" style="text-align:center;">Send Message</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Sudip Bhattarai</div>
+    <div>© 2025 Sudip Bhattarai. All rights reserved.</div>
+    <div>Auckland, New Zealand</div>
+  </footer>
+
 </body>
 </html>
